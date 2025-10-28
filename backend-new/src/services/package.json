@@ -1,0 +1,20 @@
+{
+  "name": "codewhizzhard/lnd-sdk",
+  "version": "1.0.0",
+  "description": "This sdk is built fully on hedera to solve the fulfilling the agreement from two or more people engaging in business, ensuring that the terms they have submitted on chain, is fulfilled for the satisfaction of the exchangers",
+  "main": "dist/index.js",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+    "keywords": ["hedera", "sdk", "vc", "trust", "business", "decentralization"],
+    "author": "Adeolu Samuel",
+  "dependencies": {
+    "axios": "^1.12.2"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "typescript": "^5.9.2"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "hedera",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "nodemon --watch src --exec ts-node-esm src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@hashgraph/did-sdk-js": "^0.1.1",
+    "@hashgraph/hedera-wallet-connect": "^2.0.4-canary.3ca04e9.0",
+    "@hashgraph/sdk": "^2.74.0",
+    "@pinata/sdk": "^2.1.0",
+    "@walletconnect/modal": "^2.7.0",
+    "axios": "^1.12.2",
+    "axios-retry": "^4.5.0",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "did-jwt": "^8.0.18",
+    "did-jwt-vc": "^4.0.16",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.2",
+    "mime": "^4.1.0",
+    "mongodb": "^6.20.0",
+    "mongoose": "^8.18.2",
+    "nft.storage": "^7.2.0",
+    "node-cron": "^4.2.1",
+    "pinata": "^2.5.0",
+    "qrcode": "^1.5.4",
+    "twilio": "^5.10.1",
+    "uuid": "^13.0.0",
+    "web3.storage": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.9.1",
+    "@types/qrcode": "^1.5.5",
+    "@types/uuid": "^10.0.0",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

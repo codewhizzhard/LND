@@ -1,0 +1,1 @@
+{"version":3,"file":"router.js","sourceRoot":"","sources":["../../../src/apis/messages/router.ts"],"names":[],"mappings":"AAAA,OAAO,OAAO,MAAM,SAAS,CAAC;AAC9B,OAAO,EAAE,cAAc,EAAE,MAAM,iBAAiB,CAAC;AAEjD,MAAM,aAAa,GAAG,OAAO,CAAC,MAAM,EAAE,CAAC;AAEvC,aAAa,CAAC,GAAG,CAAC,mBAAmB,EAAE,cAAc,CAAC,CAAC;AAEvD,eAAe,aAAa,CAAC"}
