@@ -331,6 +331,7 @@ export const handleCreateAsset = async (req: AuthRequest, res: Response) => {
       creatorDID: metadata?.creatorDID,
       accountId: metadata.accountId,
       publicKey: metadata.publicKey,
+      visibility: metadata.visibility,
       eventType: isFirstEvent ? EventType.CREATED : EventType.CUSTOM,
       payload: metadata, // ✅ all frontend fields stored here
       cids: [], // ✅ optional; can be filled later if you store IPFS hashes

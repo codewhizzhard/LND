@@ -1,5 +1,5 @@
 {
-  "name": "codewhizzhard/lnd-sdk",
+  "name": "@codewhizzhard/lnd-sdk",
   "version": "1.0.0",
   "description": "This sdk is built fully on hedera to solve the fulfilling the agreement from two or more people engaging in business, ensuring that the terms they have submitted on chain, is fulfilled for the satisfaction of the exchangers",
   "main": "dist/index.js",
@@ -10,6 +10,11 @@
   },
     "keywords": ["hedera", "sdk", "vc", "trust", "business", "decentralization"],
     "author": "Adeolu Samuel",
+    "license": "MIT",
+    "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "axios": "^1.12.2"
   },

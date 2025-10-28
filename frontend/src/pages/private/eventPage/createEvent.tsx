@@ -51,7 +51,9 @@ export function TransactionForm() {
   const [showDetails, setShowDetails] = useState(false);
   const [showImages, setShowImages] = useState(false);
   const [images, setImages] = useState<string[]>([]);
+  const [visibility, setVisibility] = useState("public")
   const publicKey = localStorage.getItem("userPublicKey");
+  console.log("v:", visibility)
 
    const navigate = useNavigate();
 
@@ -99,6 +101,7 @@ export function TransactionForm() {
 
       const metadata = {
         action,
+        visibility,
         sector,
         ...formData,
         expiry: expiry ? expiry.toISOString() : undefined,
@@ -110,7 +113,7 @@ export function TransactionForm() {
         images,
       };
       console.log("metadata:", metadata)
-
+      
       const { success, data, error } = await sdk.handleTopicCreation(metadata);
       if (!success) throw new Error(error);
 
@@ -197,7 +200,7 @@ export function TransactionForm() {
     </div>
 
       {/* Action Selection */}
-      <Card>
+     {/*  <Card>
         <CardHeader>
           <CardTitle>Select Action</CardTitle>
         </CardHeader>
@@ -215,7 +218,55 @@ export function TransactionForm() {
             </SelectContent>
           </Select>
         </CardContent>
-      </Card>
+      </Card> */}
+
+      <Card className="p-4">
+  <div className="flex justify-between items-center w-full gap-4">
+    {/* Left side - Select Action */}
+    <div className="flex-1">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-sm font-semibold text-gray-700">
+          Select Action:
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="p-0">
+        <Select onValueChange={setAction}>
+          <SelectTrigger className="w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-green-400">
+            <SelectValue placeholder="Choose an action" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="buy">🛒 Buy</SelectItem>
+            <SelectItem value="sell">💰 Sell</SelectItem>
+            <SelectItem value="request">📩 Request</SelectItem>
+            <SelectItem value="access">📄 Access</SelectItem>
+            <SelectItem value="rumor">📮 Rumor</SelectItem>
+          </SelectContent>
+        </Select>
+      </CardContent>
+    </div>
+
+    {/* Right side - Select Visibility */}
+    <div className="flex-1">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-sm font-semibold text-gray-700">
+          Visibility:
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="p-0">
+        <Select onValueChange={setVisibility}>
+          <SelectTrigger className="w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-green-400">
+            <SelectValue placeholder="Choose visibility" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="public">🌍 Public</SelectItem>
+            <SelectItem value="private">🔒 Private</SelectItem>
+          </SelectContent>
+        </Select>
+      </CardContent>
+    </div>
+  </div>
+</Card>
+
 
       {/* Transaction Details */}
       <Card>

@@ -1,4 +1,4 @@
-import { createHttpsAgent } from "../utils/https.js";
+import { createHttpsAgent } from "./https.js";
 import { createAuth, type AuthSDK  } from "./auth/authentication.js";
 import { createTopic, type TopicSDK } from "./topic/topicCreation.js";
 import { createCreator, type CreatorSDK } from "./account/acct.js";

@@ -559,7 +559,7 @@ const SummaryCard = () => (
                   <button
                     onClick={() =>
                       navigator.clipboard.writeText(fullDID).then(() =>
-                        alert("✅ DID copied to clipboard!")
+                        toast.message("✅ DID copied to clipboard!")
                       )
                     }
                     className="px-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
@@ -923,7 +923,7 @@ const SummaryCard = () => (
                       <div className="mt-3 flex flex-wrap gap-2">
                         <button onClick={() => setActiveTab("create")} className="px-3 py-2 rounded-md border cursor-pointer">Create account</button>
                         <Link to={"/contacts"} onClick={() => setActiveTab("contacts")} className="px-3 py-2 rounded-md border cursor-pointer">Contacts</Link>
-                        <button onClick={() => setActiveTab("messages")} className="px-3 py-2 rounded-md border cursor-pointer">Messages</button>
+                        <Link  to={"/events"} /* onClick={() => setActiveTab("messages")}  */className="px-3 py-2 rounded-md border cursor-pointer">Messages</Link>
                       </div>
                     </div>
 

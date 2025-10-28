@@ -25,6 +25,7 @@ export interface IEvent extends Document {
   payload?: Record<string, any>;
   cids: ICid[];
   traceId: string;
+  visibility: "public" | "private";
   createdAt: Date;
   latestCreatedAt?: number;
   messageHash: string;
@@ -86,6 +87,7 @@ const EventSchema = new mongoose.Schema<IEvent>({
   payload: { type: Schema.Types.Mixed, default: {} },
   cids: { type: [CidSchema], default: [] },
   traceId: { type: String, required: true },
+  visibility: {type: String, enum: ["public", "private"]},
   createdAt: { type: Date, default: Date.now },
   latestCreatedAt: { type: Number },
   messageHash: { type: String, required: true },

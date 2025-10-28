@@ -22,6 +22,7 @@ export interface IEvent extends Document {
     payload?: Record<string, any>;
     cids: ICid[];
     traceId: string;
+    visibility: "public" | "private";
     createdAt: Date;
     latestCreatedAt?: number;
     messageHash: string;

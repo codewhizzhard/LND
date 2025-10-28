@@ -1,4 +1,4 @@
-import { X } from "../../backend-new/src/services/index"
+import { X } from "@codewhizzhard/lnd-sdk";
 
 const sdk = new X({ baseURL: "http://localhost:3001" });
 

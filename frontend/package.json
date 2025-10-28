@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codewhizzhard/lnd-sdk": "^1.0.0",
     "@hashgraph/did-sdk-js": "^0.1.1",
     "@hashgraph/hedera-wallet-connect": "^1.5.1",
     "@hashgraph/sdk": "^2.74.0",

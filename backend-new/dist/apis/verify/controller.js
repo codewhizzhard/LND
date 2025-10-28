@@ -53,10 +53,13 @@ export const verifyEventsOnHedera = async (req, res) => {
                     console.warn("⚠️ Failed to parse Hedera message:", err);
                 }
             }
+            // ✅ Return sanitized event
             return {
-                ...dbE,
+                ...dbE.toObject?.() ?? dbE,
                 isValid,
                 matchedConsensusTime: matchedHedera?.consensusTime || null,
+                // 🔒 Hide actual payload data, but keep key
+                payload: { message: "🔒 Payload hidden for privacy" },
             };
         }));
         const allValid = verifiedEvents.every((e) => e.isValid);
@@ -88,20 +91,43 @@ export const verifyEventsOnHedera = async (req, res) => {
 export const verifyFromDB = async (req, res) => {
     try {
         const { topicId } = req.params;
+        const requesterAccountId = req?.creator?.accountId;
+        const requesterDID = req?.creator?.creatorDID;
+        console.log("params:", req.params);
+        console.log("creator:", req.creator);
         let events = await Events.find({ topicId });
         if (!events.length) {
             return res.status(404).json({ success: false, message: "No events found for topic" });
         }
+        // ✅ Keep only events with consensus timestamp
         events = events.filter((e) => !!e.consensusTimestamp);
+        // ✅ Sort by latest
         events.sort((a, b) => Number(b.consensusTimestamp) - Number(a.consensusTimestamp));
+        // ✅ Sanitize private events based on ownership
+        const sanitizedEvents = events.map((event) => {
+            const e = event.toObject();
+            const isOwner = e.accountId === requesterAccountId || e.creatorDID === requesterDID;
+            if (e.visibility === "private" && !isOwner) {
+                // Hide sensitive fields for non-owners
+                return {
+                    ...e,
+                    payload: { message: "🔒 Private message" },
+                    cids: [],
+                    verified: false,
+                };
+            }
+            // Owner or public event → show everything
+            return e;
+        });
+        // ✅ Keep same structure in response
         return res.json({
             success: true,
             source: "database",
             data: {
                 topicId,
-                totalEvents: events.length,
-                latestConsensusTimestamp: events[0]?.consensusTimestamp || null,
-                events,
+                totalEvents: sanitizedEvents.length,
+                latestConsensusTimestamp: sanitizedEvents[0]?.consensusTimestamp || null,
+                events: sanitizedEvents,
             },
         });
     }
@@ -110,6 +136,33 @@ export const verifyFromDB = async (req, res) => {
         return res.status(500).json({ success: false, message: "Internal server error" });
     }
 };
+/* export const verifyFromDB = async (req: Request, res: Response) => {
+  try {
+    const { topicId } = req.params;
+
+    let events = await Events.find({ topicId });
+    if (!events.length) {
+      return res.status(404).json({ success: false, message: "No events found for topic" });
+    }
+
+    events = events.filter((e) => !!e.consensusTimestamp);
+    events.sort((a, b) => Number(b.consensusTimestamp) - Number(a.consensusTimestamp));
+
+    return res.json({
+      success: true,
+      source: "database",
+      data: {
+        topicId,
+        totalEvents: events.length,
+        latestConsensusTimestamp: events[0]?.consensusTimestamp || null,
+        events,
+      },
+    });
+  } catch (error: any) {
+    console.error("DB verification error:", error);
+    return res.status(500).json({ success: false, message: "Internal server error" });
+  }
+}; */
 /**
  * 2. Verify from Hedera
  */ /*

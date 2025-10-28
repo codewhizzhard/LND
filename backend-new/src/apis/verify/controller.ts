@@ -1,6 +1,7 @@
 import { Events, IEvent } from "../../database/eventSchema.js";
 import axios from "axios";
 import { Request, Response } from "express";
+import { AuthRequest } from "../auth/auth.js";
 
 interface HederaEvent {
   consensusTime: string;
@@ -48,54 +49,61 @@ export const verifyEventsOnHedera = async (req: Request, res: Response) => {
     }));
 
     // 🔍 Compare DB events vs Hedera messages
-    const verifiedEvents = await Promise.all(
-      events.map(async (dbE: IEvent) => {
-        let isValid = false;
-        let matchedHedera: HederaEvent | null = null;
+  const verifiedEvents = await Promise.all(
+  events.map(async (dbE: IEvent) => {
+    let isValid = false;
+    let matchedHedera: HederaEvent | null = null;
 
-        for (const he of hederaEvents) {
-          try {
-            // Decode base64 → utf8 → parse JSON
-            const decodedMsg = Buffer.from(he.message, "base64").toString("utf-8");
-            const parsed = JSON.parse(decodedMsg);
-      
-            // Some apps wrap the actual data inside `message`
-            const innerMsg = typeof parsed.message === "string"
-              ? JSON.parse(parsed.message)
-              : parsed.message;
+    for (const he of hederaEvents) {
+      try {
+        // Decode base64 → utf8 → parse JSON
+        const decodedMsg = Buffer.from(he.message, "base64").toString("utf-8");
+        const parsed = JSON.parse(decodedMsg);
 
-            const hederaHash = innerMsg?.hash;
-            const dbHash = dbE.messageHash;
-            const heTime = Math.floor(parseFloat(he.consensusTime));
-            const dbTime = Math.floor(new Date(dbE.consensusTimestamp).getTime() / 1000);
+        // Some apps wrap the actual data inside `message`
+        const innerMsg =
+          typeof parsed.message === "string"
+            ? JSON.parse(parsed.message)
+            : parsed.message;
 
-            // Compare both hash and timestamp
-            if (hederaHash === dbHash && heTime === dbTime) {
-              isValid = true;
-              matchedHedera = he;
+        const hederaHash = innerMsg?.hash;
+        const dbHash = dbE.messageHash;
+        const heTime = Math.floor(parseFloat(he.consensusTime));
+        const dbTime = Math.floor(
+          new Date(dbE.consensusTimestamp).getTime() / 1000
+        );
 
-              // ✅ Update event verification status in DB
-              await Events.updateOne(
-                { _id: dbE._id },
-                {
-                  verified: true,
-                  consensusTimestamp: he.consensusTime,
-                }
-              );
-              break;
+        // Compare both hash and timestamp
+        if (hederaHash === dbHash && heTime === dbTime) {
+          isValid = true;
+          matchedHedera = he;
+
+          // ✅ Update event verification status in DB
+          await Events.updateOne(
+            { _id: dbE._id },
+            {
+              verified: true,
+              consensusTimestamp: he.consensusTime,
             }
-          } catch (err) {
-            console.warn("⚠️ Failed to parse Hedera message:", err);
-          }
+          );
+          break;
         }
+      } catch (err) {
+        console.warn("⚠️ Failed to parse Hedera message:", err);
+      }
+    }
 
-        return {
-          ...dbE,
-          isValid,
-          matchedConsensusTime: matchedHedera?.consensusTime || null,
-        };
-      })
-    );
+    // ✅ Return sanitized event
+    return {
+      ...dbE.toObject?.() ?? dbE,
+      isValid,
+      matchedConsensusTime: matchedHedera?.consensusTime || null,
+      // 🔒 Hide actual payload data, but keep key
+      payload: { message: "🔒 Payload hidden for privacy" },
+    };
+  })
+);
+
 
     const allValid = verifiedEvents.every((e) => e.isValid);
 
@@ -124,7 +132,63 @@ export const verifyEventsOnHedera = async (req: Request, res: Response) => {
 /**
  * 1. Verify from Database
  */
-export const verifyFromDB = async (req: Request, res: Response) => {
+export const verifyFromDB = async (req: AuthRequest, res: Response) => {
+  try {
+    const { topicId } = req.params;
+    const requesterAccountId = req?.creator?.accountId;
+    const requesterDID = req?.creator?.creatorDID;
+    console.log("params:", req.params)
+    console.log("creator:", req.creator)
+
+    let events = await Events.find({ topicId });
+    if (!events.length) {
+      return res.status(404).json({ success: false, message: "No events found for topic" });
+    }
+
+    // ✅ Keep only events with consensus timestamp
+    events = events.filter((e) => !!e.consensusTimestamp);
+
+    // ✅ Sort by latest
+    events.sort((a, b) => Number(b.consensusTimestamp) - Number(a.consensusTimestamp));
+
+    // ✅ Sanitize private events based on ownership
+    const sanitizedEvents = events.map((event) => {
+      const e = event.toObject();
+      const isOwner =
+        e.accountId === requesterAccountId || e.creatorDID === requesterDID;
+
+      if (e.visibility === "private" && !isOwner) {
+        // Hide sensitive fields for non-owners
+        return {
+          ...e,
+          payload: { message: "🔒 Private message" },
+          cids: [],
+          verified: false,
+        };
+      }
+
+      // Owner or public event → show everything
+      return e;
+    });
+
+    // ✅ Keep same structure in response
+    return res.json({
+      success: true,
+      source: "database",
+      data: {
+        topicId,
+        totalEvents: sanitizedEvents.length,
+        latestConsensusTimestamp: sanitizedEvents[0]?.consensusTimestamp || null,
+        events: sanitizedEvents,
+      },
+    });
+  } catch (error: any) {
+    console.error("DB verification error:", error);
+    return res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/* export const verifyFromDB = async (req: Request, res: Response) => {
   try {
     const { topicId } = req.params;
 
@@ -150,7 +214,7 @@ export const verifyFromDB = async (req: Request, res: Response) => {
     console.error("DB verification error:", error);
     return res.status(500).json({ success: false, message: "Internal server error" });
   }
-};
+}; */
 /**
  * 2. Verify from Hedera
  *//* 

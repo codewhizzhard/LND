@@ -51,6 +51,7 @@ const EventSchema = new mongoose.Schema({
     payload: { type: Schema.Types.Mixed, default: {} },
     cids: { type: [CidSchema], default: [] },
     traceId: { type: String, required: true },
+    visibility: { type: String, enum: ["public", "private"] },
     createdAt: { type: Date, default: Date.now },
     latestCreatedAt: { type: Number },
     messageHash: { type: String, required: true },

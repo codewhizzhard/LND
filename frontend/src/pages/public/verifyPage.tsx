@@ -5,6 +5,8 @@ import sdk from "@/sdk"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Loader2, CheckCircle, XCircle, Info } from "lucide-react"
+import { Button } from "../../components/ui/button"
+import { useNavigate } from "react-router-dom"
 
 export default function QrPage() {
   const [events, setEvents] = useState<any[]>([])
@@ -18,7 +20,8 @@ export default function QrPage() {
     allVerified: false,
   })
 
-  const topicId = "0.0.6955022"
+    const navigate = useNavigate();
+    const topicId = "0.0.7152563"
 
   useEffect(() => {
     const fetchAndVerify = async () => {
@@ -26,6 +29,7 @@ export default function QrPage() {
         // Step 1️⃣ — Fetch events from DB
         setLoadingDB(true)
         const dbRes = await sdk.verifyEventsFromDB(topicId)
+        console.log("verify:", dbRes)
         setLoadingDB(false)
 
         const dbEvents = dbRes?.data?.data?.events || []
@@ -109,6 +113,13 @@ export default function QrPage() {
   return (
     <div className="max-w-3xl mx-auto py-10 px-4 space-y-6">
       <div className="text-center space-y-2">
+         <Button
+        variant="outline"
+        className="absolute left-4 top-4 cursor-pointer"
+        onClick={() => navigate("/dashboard")}
+      >
+        ← Back to Dashboard
+      </Button>
         <h1 className="text-3xl font-bold">🔍 Hedera Events Verification</h1>
         <p className="text-muted-foreground">
           Viewing all events linked to topic ID <b>{topicId}</b>.<br />
