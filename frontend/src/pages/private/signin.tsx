@@ -214,11 +214,11 @@ const handleRegister = async () => {
       value={orgName}
       onChange={(e) => setOrgName(e.target.value)}
     />
-    <Input
+    {/* <Input
       placeholder="Sector (Optional)"
       value={sector}
       onChange={(e) => setSector(e.target.value)}
-    />
+    /> */}
     <select
       value={orgType}
       onChange={(e) => setOrgType(e.target.value)}
