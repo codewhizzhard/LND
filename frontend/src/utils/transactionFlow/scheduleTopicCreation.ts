@@ -74,7 +74,7 @@ export async function signScheduledTopic(
   const scheduleId = ScheduleId.fromString(scheduleIdStr);
 
   // Create client for operator
-  const client = Client.forTestnet().setOperator(accountId, privateKey);
+   const client = Client.forTestnet().setOperator(accountId, privateKey);
 
   try {
     // Build sign transaction (signed by operator automatically)

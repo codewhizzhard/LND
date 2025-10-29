@@ -157,16 +157,13 @@ export default function MyAssetsPage() {
             </DialogTitle>
           </DialogHeader>
           <div className="flex flex-col items-center justify-center py-6 space-y-4">
-            <QRCodeCanvas
-              id="asset-qr"
-              value={JSON.stringify({
-                assetId: selectedAsset?.assetId,
-                creator: selectedAsset?.creatorDID,
-              })}
-              size={220}
-              level="H"
-              includeMargin
-            />
+          <QRCodeCanvas
+            id="asset-qr"
+            value={url}  // ✅ use URL string instead of JSON
+            size={220}
+            level="H"
+            includeMargin
+          />
             <Button
               onClick={handleDownloadQr}
               className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer"

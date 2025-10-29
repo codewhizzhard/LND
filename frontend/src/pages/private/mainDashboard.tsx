@@ -694,10 +694,10 @@ const SummaryCard = () => (
       <div className="grid gap-3">
         {contacts.length === 0 && <div className="text-sm text-slate-500">No contacts yet</div>}
         {contacts.map((c) => (
-          <div key={c.id} className="p-3 rounded-md bg-white shadow-sm flex justify-between items-center">
+          <div key={c?.id} className="p-3 rounded-md bg-white shadow-sm flex justify-between items-center">
             <div>
-              <div className="font-medium">{c.name}</div>
-              <div className="text-xs text-slate-500">{c.address ?? "—"}</div>
+              <div className="font-medium">{c?.name}</div>
+              <div className="text-xs text-slate-500">{c?.address ?? "—"}</div>
             </div>
             <div className="text-sm text-slate-500">Actions</div>
           </div>
@@ -809,7 +809,7 @@ const SummaryCard = () => (
 
         {!loadingEvents && events.length > 0 && (
           <ul className="space-y-2">
-            {events.slice(0, 3).map((ev: any) => (
+            {events.slice(0, 2).map((ev: any) => (
               <li key={ev._id ?? ev.eventId ?? Math.random()} className="p-2 rounded-md bg-slate-50 border text-slate-700">
                 <div className="text-sm font-medium truncate">{eventMessage(ev)}</div>
                 <div className="text-xs text-slate-400 mt-1">
