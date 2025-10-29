@@ -23,21 +23,18 @@ const app = express();
 // Middleware
 const allowedOrigins = [
   "http://localhost:5174",
-  "https://lnd-frontend.onrender.com"
+  "https://lnd-frontend.onrender.com",
 ];
 
-
 app.use(cors({
-  origin: function(origin, callback){
-    // allow requests with no origin like mobile apps or curl
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){
-      const msg = `The CORS policy for this site does not allow access from the specified Origin.`;
-      return callback(new Error(msg), false);
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS blocked for origin: ${origin}`));
     }
-    return callback(null, true);
   },
-  credentials: true
+  credentials: true,
 }));
 app.use(express.json());
 
