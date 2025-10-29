@@ -31,7 +31,7 @@ function App() {
         <Routes>
 
           {/* Public */}
-          <Route path="/hh" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/signin" element={<UserAuth />} />
            <Route path="/create-account" element={<CreateAccount />} />
          {/*  <Route path="/welcome" element={<LandingPage />} /> */}
