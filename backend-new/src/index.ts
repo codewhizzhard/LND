@@ -26,6 +26,7 @@ const allowedOrigins = [
   "https://lnd-frontend.onrender.com"
 ];
 
+
 app.use(cors({
   origin: function(origin, callback){
     // allow requests with no origin like mobile apps or curl
