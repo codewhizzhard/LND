@@ -15,9 +15,20 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 const app = express();
 // Middleware
+const allowedOrigins = [
+    "https://lnd-frontend.onrender.com",
+    "http://localhost:5174",
+];
 app.use(cors({
-    origin: "http://localhost:5174",
-    credentials: true
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error(`CORS blocked for origin: ${origin}`));
+        }
+    },
+    credentials: true,
 }));
 app.use(express.json());
 // Routes

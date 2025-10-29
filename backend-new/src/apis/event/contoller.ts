@@ -30,145 +30,7 @@ const client = Client.forTestnet(); // or Mainnet
  */
 
  export const handleNonScheduleTransaction = async (req: AuthRequest, res: Response) => {
-  /*
-  try {
-  
-    const { signedTxBytes, metadata, mintTxBytes } = req.body;
-      console.log("meta:", metadata)
-
-    if (!req.creator) {
-      return res.status(401).json({ success: false, error: "Unauthorized: login required" });
-    }
-
-    let topicId: string;
-    let isFirstEvent = false;
-    let txResult: any = null;
-
-    // ✅ Case 1: User is creating a new asset/topic
-    if (signedTxBytes && !metadata?.assetTopicId) {
-      console.log("about to sign")
-      txResult = await executeUserSignedTopicAndMint(signedTxBytes, mintTxBytes);
-      if (!txResult.success) {
-        return res.status(500).json(txResult);
-      }
-      console.log("res:", txResult)
-      if (!txResult.topicId) {
-        return res.status(500).json({ success: false, error: "Missing topicId from signed transaction" });
-      }
-
-      topicId = txResult.topicId.toString();
-      isFirstEvent = true;
-
-      // Immediately send the creation message to the new topic
-      const msgPayload = {
-        message: metadata?.message || metadata,
-        topicId
-      };
-      const msgStatus = await sendEventToAsset(msgPayload);
-      if (msgStatus !== "SUCCESS") {
-        return res.status(500).json({ success: false, error: "Failed to send creation message to topic" });
-      }
-
-    // ✅ Case 2: Sending message to an existing topic
-    } else if (!signedTxBytes && metadata?.assetTopicId) {
-      topicId = metadata.assetTopicId;
-
-      const msgPayload = {
-        message: metadata?.message || metadata,
-        topicId
-      };
-      const msgStatus = await sendEventToAsset(msgPayload);
-      if (msgStatus !== "SUCCESS") {
-        return res.status(500).json({ success: false, error: "Failed to send message to topic" });
-      }
-
-    } else {
-      return res.status(400).json({
-        success: false,
-        error: "Invalid input: either provide signedTxBytes (new topic) or topicId (message).",
-      });
-    }
-
-    // 📌 Asset URL + QR
-    const url = `https://yourdomain.com/asset/${topicId}`;
-    const qrCodeBase64 = await QRCode.toDataURL(url);
-
-    // 🗄️ Asset DB storage
-    let asset;
-    if (isFirstEvent) {
-      asset = await Assets.create({
-       // assetId: txResult.tokenId,
-        topicId,
-        metadata,
-        creatorId: req.creator.id,
-        creatorDID: req.creator.did,
-        accountId: req.creator.accountId,
-        publicKey: req.creator.publicKey,
-        createdAt: new Date(),
-      });
-    } else {
-      asset = await Assets.findOne({ topicId });
-      if (!asset) {
-        return res.status(404).json({ success: false, error: "Asset not found for this topic" });
-      }
-    }
-
-    // 🗄️ Event DB storage
-    const newEvent = await Events.create({
-      eventId: uuidv4(),
-      //assetId: asset.assetId,
-      topicId: asset.topicId,
-      creatorId: req.creator.id,
-      creatorDID: req.creator.did,
-      accountId: req.creator.accountId,
-      publicKey: req.creator.publicKey,
-      eventType: isFirstEvent ? EventType.CREATED : EventType.CUSTOM,
-      payload: metadata,
-      cids: [],
-      createdAt: new Date(),
-      latestCreatedAt: Date.now(),
-    });
-
-    asset.latestEventId = newEvent.eventId;
-    await asset.save();
-
-    // ✉️ If recipient provided, add message to their account
-  if (metadata?.recipient) {
-  const contact = await Contacts.findOne({
-    ownerAccountId: req.creator.accountId,         // 🔑 check by Hedera accountId of sender
-    "info.displayName": metadata.recipient         // match the recipient's display name
-  });
-  console.log("contact:", contact)
-
-  if (contact) {
-    await Messages.create({
-      senderAccountId: req.creator.accountId,      // sender Hedera accountId
-      recipientAccountId: contact.contactAccountId, // recipient Hedera accountId
-      topicId,
-      content: metadata?.message || metadata,
-      createdAt: new Date(),
-      read: false,
-      status: "DELIVERED"
-    });
-  }
-}
-
-
-    // ✅ Response
-    res.json({
-      success: true,
-      transaction: txResult,
-      topicId,
-      url,
-      qrCode: qrCodeBase64,
-      event: newEvent,
-    });
-
-  } catch (err: any) {
-    console.error("Error handling transaction:", err);
-    res.status(500).json({ success: false, error: err.message || "Unknown error" });
-  }
-    */
+ /////
 };
  
 /// schedule Topic creation 
@@ -229,22 +91,6 @@ export const prepareNonScheduleTopicTransaction = async (
 };
 
 
-/* import { verifyPublishedMessage } from "../mirrorVerifier"; */ // custom fn (Mirror Node polling)
-
-
-
-/* 
-comback to this 
-function generateBatchNumber(productName) {
-  const prefix = productName.slice(0, 4).toUpperCase(); // e.g. PARA
-  const date = new Date();
-  const y = date.getFullYear().toString().slice(-2);
-  const m = (date.getMonth() + 1).toString().padStart(2, '0');
-  const d = date.getDate().toString().padStart(2, '0');
-  const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-  return `${prefix}-${y}${m}${d}-${random}`;
-}
- */
 
 export const handleCreateAsset = async (req: AuthRequest, res: Response) => {
   try {
@@ -300,7 +146,7 @@ export const handleCreateAsset = async (req: AuthRequest, res: Response) => {
     const immediateConsensus = await tryImmediateConsensusCheck(msg.transactionId);
 
     // ✅ Generate asset QR Code for scanning
-    const url = `https://yourdomain.com/asset/${topicId}`;
+    const url = `https://lnd-frontend.onrender.com/qr/${topicId}`;
     const qrCodeBase64 = await QRCode.toDataURL(url);
 
     // 🗄️ Create or update Asset record
@@ -434,28 +280,6 @@ export const handleCreateAsset = async (req: AuthRequest, res: Response) => {
   }
 };
 
-/* 
-if (metadata?.action === "complaint") {
-  await Complaints.create({
-    complaintId: newEvent.eventId, // or uuidv4(), but eventId is cleaner
-    traceId: newEvent.traceId,     // ✅ same trace id as event
-    topicId,
-    complainantDID: metadata.creatorDID,
-    complainantAccountId: metadata.accountId,
-    defendantDID: metadata.defendantDID,
-    defendantAccountId: metadata.defendantAccountId,
-    message: metadata.message,
-    metadata,
-    images: metadata.images || [],
-    status: "PENDING",
-    createdAt: new Date(),
-  });
-}
-
-*/
-
-
-
 /**
  * Get all events for the logged-in user
  */
@@ -524,65 +348,3 @@ export const getUserAssets = async (req: AuthRequest, res: Response) => {
     });
   }
 };
-
-// 
-
-
-/**
- * Shared helper: fetch Hedera messages and compare with DB events
- */
-// schedule transation getting stored 
-
-{/* 
-
-export const handleScheduledTopicInit = async (req: Request, res: Response) => {
-  try {
-    const { counterpartyPublicKey, metadata } = req.body;
-
-    if (!counterpartyPublicKey) {
-      return res.status(400).json({ success: false, error: "counterpartyPublicKey is required" });
-    }
-
-    // Call the pure function
-    const result = await createScheduledTopic(counterpartyPublicKey )
-
-    if (!result.success) {
-      return res.status(500).json(result);
-    }
-
-    // Store metadata + schedule info in DB
-    //await db.scheduledTopics.insert({
-      scheduleId: result.scheduleId!,
-      counterpartyPublicKey,
-      metadata,
-      status: "pending",
-      topicId: null,
-    }); 
-
-    res.json({
-      success: true,
-      scheduleId: result.scheduleId,
-      status: "pending",
-    });
-  } catch (err: any) {
-    console.error("handleScheduledTopicInit error:", err);
-    res.status(500).json({ success: false, error: err.message || "Unknown error" });
-  }
-};
- */}
-
-// check schedule transaction status
-/* export const checkScheduledTransactionStatus = async (req: Request, res: Response) => {
-  try {
-    const { scheduleId } = req.params;
-    if (!scheduleId) {
-      return res.status(400).json({ success: false, error: "scheduleId is required" });
-    }
-    const scheduleInfo = await checkScheduledStatus(scheduleId)
-    res.json(scheduleInfo);
-  } catch (err: any) {
-    console.error("Error checking schedule status:", err);
-    res.status(500).json({ success: false, error: err.message || "Unknown error" });
-}
-} */
-///

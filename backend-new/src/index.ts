@@ -22,8 +22,8 @@ const app = express();
 
 // Middleware
 const allowedOrigins = [
-  "http://localhost:5174",
   "https://lnd-frontend.onrender.com",
+  "http://localhost:5174",
 ];
 
 app.use(cors({

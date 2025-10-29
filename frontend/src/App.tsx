@@ -20,6 +20,7 @@ import HederaDashboard from "./pages/private/mainDashboard";
 import ContactsPage from "./pages/private/contactList";
 import IssuerDashboard from "./pages/private/orgPages/Issuer/adminPage";
 import BondDialog from "./pages/public/test";
+import MyAssetsPage from "./pages/private/eventPage/asset";
 
 
 
@@ -35,10 +36,11 @@ function App() {
           <Route path="/signin" element={<UserAuth />} />
            <Route path="/create-account" element={<CreateAccount />} />
          {/*  <Route path="/welcome" element={<LandingPage />} /> */}
-          <Route path="/qr" element={<QrPage />} />
+          <Route path="/qr/:topicId" element={<QrPage />} />
     
           <Route path="/issuer" element={<IssuerDashboard />} />
           <Route path="/business" element={<BusinessAdminPage />} />
+          <Route path="/assets" element={<MyAssetsPage />} />
           {/* Private */}
            <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<HederaDashboard />} />

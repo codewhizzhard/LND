@@ -6,9 +6,11 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Loader2, CheckCircle, XCircle, Info } from "lucide-react"
 import { Button } from "../../components/ui/button"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 export default function QrPage() {
+  const { topicId } = useParams<{ topicId: string }>();
+  console.log("id:", topicId)
   const [events, setEvents] = useState<any[]>([])
   const [loadingDB, setLoadingDB] = useState(true)
   const [verifying, setVerifying] = useState(false)
@@ -21,7 +23,6 @@ export default function QrPage() {
   })
 
     const navigate = useNavigate();
-    const topicId = "0.0.7152563"
 
   useEffect(() => {
     const fetchAndVerify = async () => {
@@ -227,6 +228,14 @@ export default function QrPage() {
                   <div>
                     <p className="font-semibold">Sector:</p>
                     <p>{event.payload?.sector || "N/A"}</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold">TaceID:</p>
+                    <p>{event.traceId || "N/A"}</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold">Visibility:</p>
+                    <p>{event.visibility || "N/A"}</p>
                   </div>
                   <div>
                     <p className="font-semibold">Action:</p>
