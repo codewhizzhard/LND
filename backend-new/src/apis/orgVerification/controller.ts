@@ -715,7 +715,7 @@ export const saveTransactionId = async (req: AuthRequest, res: Response) => {
       accountId: callerAccountId,
       checked: true,
     });
-    const result = await registerIssuer(creatorDID, callerAccountId);
+    await registerIssuer(creatorDID, callerAccountId);
 
     return res.status(201).json({
       success: true,
