@@ -56,9 +56,9 @@ const startServer = async () => {
     console.log("✅ Connected to MongoDB");
 
     // 2️⃣ Start transaction monitor cron
-    startTransactionMonitor();
+    /* startTransactionMonitor();
     console.log("⏳ Transaction monitor cron started");
-
+ */
     // 3️⃣ Start Express server
     app.listen(PORT, () => {
       console.log(`✅ Server running on http://localhost:${PORT}`);

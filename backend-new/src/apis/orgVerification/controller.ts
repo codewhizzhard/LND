@@ -22,6 +22,7 @@ export const registerIssuer = async (creatorDID: string, creatorAccountId: strin
         error: "Missing required identifiers: creatorDID, accountId, or issuerDID",
       };
     }
+    console.log("regData:", creatorDID, creatorAccountId, issuerDID)
     // this should for when they try to split from org to issuer
    /*  const { name, sector, ...extraData } = req.body;
     if (!name || !sector) {
@@ -45,6 +46,7 @@ export const registerIssuer = async (creatorDID: string, creatorAccountId: strin
     };
     const messageHash = sha256hex(message);
     const topicData = await submitMessageToPrivateTopic(messageHash);
+    console.log("top:", topicData)
 
     if (topicData.status !== "SUCCESS") {
       return { success: false, error: "Failed to create Hedera message" };
@@ -685,6 +687,7 @@ export const saveTransactionId = async (req: AuthRequest, res: Response) => {
         error: "Missing transactionId",
       });
     }
+    console.log("ggg:", transactionId)
 
     // ✅ Safely convert to required format
     const [accountId, timestamp] = transactionId.split("@");
@@ -715,6 +718,7 @@ export const saveTransactionId = async (req: AuthRequest, res: Response) => {
       accountId: callerAccountId,
       checked: true,
     });
+    console.log("record:", record)
     await registerIssuer(creatorDID, callerAccountId);
 
     return res.status(201).json({

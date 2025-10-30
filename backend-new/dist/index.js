@@ -9,7 +9,6 @@ import eventRouter from "./apis/event/router.js";
 import accountRouter from "./apis/addAccount/router.js";
 import messageRouter from "./apis/messages/router.js";
 import verifyRouter from "./apis/verify/router.js";
-import { startTransactionMonitor } from "./utils/issuerRecords/recordchecker.js";
 import verificationRouter from "./apis/orgVerification/router.js";
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -18,6 +17,7 @@ const app = express();
 const allowedOrigins = [
     "https://lnd-frontend.onrender.com",
     "http://localhost:5174",
+    "http://localhost:5173"
 ];
 app.use(cors({
     origin: (origin, callback) => {
@@ -46,8 +46,9 @@ const startServer = async () => {
         await connectDB();
         console.log("✅ Connected to MongoDB");
         // 2️⃣ Start transaction monitor cron
-        startTransactionMonitor();
+        /* startTransactionMonitor();
         console.log("⏳ Transaction monitor cron started");
+     */
         // 3️⃣ Start Express server
         app.listen(PORT, () => {
             console.log(`✅ Server running on http://localhost:${PORT}`);

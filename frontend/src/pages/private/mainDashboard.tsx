@@ -957,7 +957,7 @@ const SummaryCard = () => (
           </aside>
         </div>
       </main>
-
+      
       {/* Mobile bottom nav */}
       <nav className="fixed bottom-3 left-1/2 transform -translate-x-1/2 w-[min(96%,720px)] bg-white/90 backdrop-blur rounded-xl shadow-lg p-2 flex justify-between md:hidden">
         <button onClick={() => setActiveTab("home")} className={`flex-1 py-2 ${activeTab === "home" ? "font-semibold" : "text-slate-500"}`}>Home</button>
