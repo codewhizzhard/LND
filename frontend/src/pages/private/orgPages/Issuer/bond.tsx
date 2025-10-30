@@ -64,43 +64,7 @@ const IssuerBondDialog = forwardRef<HTMLDivElement, IssuerBondDialogProps>((prop
   };
 
   // 🔹 Add Bond to Platform
-  const handleAddBond = async () => {
-    if (!amount.trim() || Number(amount) <= 0) {
-      toast.error("Please enter a valid bond amount.");
-      return;
-    }
 
-    setLoading(true);
-    try {
-      const token = localStorage.getItem("authToken");
-      const res = await axios.post(
-        "/api/issuer/add-bond",
-        { amount },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      toast.success(res.data?.message || "✅ Bond added successfully!");
-      setAmount("");
-      refreshBalance(); // Refresh balance
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error("Bond registration error:", error);
-        const axiosError = error as { response?: { data?: { error?: string } } };
-        const errMsg =
-          axiosError.response?.data?.error ||
-          error.message ||
-          "Failed to register bond.";
-        toast.error(errMsg);
-      } else {
-        console.error("Unknown error:", error);
-        toast.error("An unknown error occurred.");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // 🔹 Withdraw Bond
   const handleWithdraw = async () => {

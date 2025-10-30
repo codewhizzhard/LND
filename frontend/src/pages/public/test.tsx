@@ -147,6 +147,7 @@ const sendBond = async () => {
         // Immediately save transaction ID to backend
         toast(`💾 Saving transaction...`);
         const res = await sdk.orgSaveTransactionId(txIdString);
+        console.log("resSvee:", res)
         if (res.success) {
           toast.success(res.data?.message || "✅ Transaction saved! Wait a little for profile update.");
         } else {
