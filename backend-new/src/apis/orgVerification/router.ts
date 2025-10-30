@@ -27,7 +27,7 @@ verificationRouter.get("/issuer", getIssuer);
 // ----- Issuer ECDSA Account -----
 verificationRouter.post("/issuer/register-edsca", registerIssuerEcdsaAccount);
 verificationRouter.get("/issuer/retrieve-edsca", retrieveIssuerEcdsaAccount);
-verificationRouter.get("/issuer/transaction/save", saveTransactionId);
+verificationRouter.post("/issuer/transaction/save", saveTransactionId);
 verificationRouter.get("/issuers", getIssuers);
 verificationRouter.post("/issuer/access-trust", accessIssuerTrust)
 
