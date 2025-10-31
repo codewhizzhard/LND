@@ -292,7 +292,6 @@ No transactions showing	Mirror Node delay	Wait a few seconds or check account ke
 
 Below is the full system architecture of **BFi — Built on Hedera**, showing how our Frontend, Backend, and Hedera services communicate in real time for trust, traceability, and transaction flow.
 
-```text
                           ┌──────────────────────────────────────┐
                           │        🖥️  Frontend (React)          │
                           │ UI + Wallet (HashPack) + Guardian UI │
