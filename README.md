@@ -209,7 +209,8 @@ NFT_URI=***              # Optional – URI for NFT metadata (required only when
 DB=***                   # MongoDB connection string (Required)
 
 # 📦 IPFS (Pinata)
-PINATA_JWT=***           # Required for uploading user data to IPFS
+PINATA_JWT=***           # Required for uploading user data to IPFS    
+
 PINATA_GATEWAY=***       # Pinata gateway URL for IPFS access
 
 # 🔐 Security
