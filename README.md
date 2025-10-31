@@ -6,7 +6,7 @@ Pitch Deck: View Here
 certificate: 
 
 ⚙️ Hedera Integration Summary
- 1. Hedera Consensus Service (HCS) — The BFi Truth Engine
+1️⃣ 1. Hedera Consensus Service (HCS) — The BFi Truth Engine
 
 💡 Consensus-as-a-Service for Transparent, Immutable Event Logging
 
