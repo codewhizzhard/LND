@@ -331,31 +331,34 @@ Below is the full system architecture of **BFi — Built on Hedera**, showing ho
                           └──────────────────────────────────────┘
 
 
+## 🌐 Deployed Hedera IDs (Testnet)
 
-🌐 Deployed Hedera IDs (Testnet)
-
-These are the key Hedera network resources powering BFi (Bonded Financial Integrity) on the Hedera Testnet.
+These are the key Hedera network resources powering **BFi (Bonded Financial Integrity)** on the **Hedera Testnet**.  
 Each ID represents a core part of our architecture — from smart contracts and tokenized bonds to consensus message topics and backend verifiers.
 
-🔹 Component	💡 Purpose	🧩 Hedera ID	📝 Details
-👤 Backend Client Account	Main operational account for backend signing and message submission	0.0.6747561	Executes SDK operations, logs messages, and interacts with Hedera APIs.
-🧾 Previous ECDSA Account	Early testing account (deprecated in favor of ED25519)	0.0.6652307	Legacy setup — now all keys use ED25519 for higher performance.
-💰 Token ID (HTS)	Represents bonded trust tokens within BFi	0.0.7098444	Enables tokenized trust and bonding mechanisms across issuers.
-📦 File ID (HFS)	Stores deployed contract bytecode on Hedera File Service	0.0.7110459	The on-chain bytecode file used to deploy the HSCS smart contract.
-⚙️ Contract ID (HSCS)	Core smart contract handling bonding and issuer verification	0.0.7110461	Manages bond logic, event triggers, and verification actions.
-🗣️ HCS Topics	Event logs and hash records (Consensus Service)	Dynamic per event	Each new event creates a unique Topic ID visible in the dashboard.
-🧭 How Topics Work
+| 🔹 **Component** | 💡 **Purpose** | 🧩 **Hedera ID** | 📝 **Details** |
+|:------------------|:----------------|:------------------|:----------------|
+| 👤 **Backend Client Account** | Main operational account for backend signing and message submission | `0.0.6747561` | Executes SDK operations, logs messages, and interacts with Hedera APIs. |
+| 🧾 **Previous ECDSA Account** | Early testing account (deprecated in favor of ED25519) | `0.0.6652307` | Legacy setup — now all keys use **ED25519** for higher performance. |
+| 💰 **Token ID (HTS)** | Represents bonded trust tokens within BFi | `0.0.7098444` | Enables tokenized trust and bonding mechanisms across issuers. |
+| 📦 **File ID (HFS)** | Stores deployed contract bytecode on Hedera File Service | `0.0.7110459` | The on-chain bytecode file used to deploy the HSCS smart contract. |
+| ⚙️ **Contract ID (HSCS)** | Core smart contract handling bonding and issuer verification | `0.0.7110461` | Manages bond logic, event triggers, and verification actions. |
+| 🗣️ **HCS Topics** | Event logs and hash records (Consensus Service) | *Dynamic per event* | Each new event creates a **unique Topic ID** visible in the dashboard. |
 
-Each HCS Topic can store multiple messages (events).
-When a new event is created instead of updating an existing topic, a new Topic ID is automatically generated.
-This design ensures every issuer or verification stream remains independently auditable on the Hedera Mirror Node.
+---
 
-🔍 View Messages & Topics
+### 🧭 How Topics Work
 
-You can view and verify all messages tied to your Topics directly from the BFi Dashboard, including:
+Each **HCS Topic** can store multiple messages (events).  
+When a new event is created instead of updating an existing topic, a **new Topic ID** is automatically generated.  
+This design ensures every issuer or verification stream remains **independently auditable** on the Hedera Mirror Node.
 
-✅ Hash logs of transactions
+---
 
-🔗 Policy and issuer verification events
+### 🔍 View Messages & Topics
 
+You can view and verify all messages tied to your Topics directly from the **BFi Dashboard**, including:
+
+✅ Hash logs of transactions  
+🔗 Policy and issuer verification events  
 🧾 On-chain and off-chain consistency proofs
