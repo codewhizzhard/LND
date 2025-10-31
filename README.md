@@ -294,7 +294,7 @@ Below is the full system architecture of **BFi — Built on Hedera**, showing ho
 
                           ┌──────────────────────────────────────┐
                           │        🖥️  Frontend (React)          │
-                          │ UI + Wallet (HashPack) + Guardian UI │
+                          │ UI + Wallet (HashPack) + Managed Guardian UI │
                           └───────────────┬──────────────────────┘
                                           │
                                           │ REST / SDK Calls
