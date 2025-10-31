@@ -896,6 +896,8 @@ export async function deployIssuerBondManager() {
   }
 }
 
+//deployIssuerBondManager()
+
 interface ContractAction {
   call_depth: number;
   call_operation_type: string;
