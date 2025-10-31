@@ -1,6 +1,8 @@
 # 🌍 **Business Fabric Infrastructure (BFI)**  
 ### _Track: DLT for Operations_  
 
+bbbbbbbbb 🏗️ **Built with passion and love on Hedera to put decentralization in everyone's hand**  
+
 📜 **Pitch Deck:** [View Here](#)  
 🎓 **Certificate:** _Pending_  
 
@@ -176,12 +178,72 @@ BFi amplifies Hedera’s strengths — turning **low fees, high throughput, and 
 
 ### 1) Clone the repository
 ```bash
-git clone https://github.com/yourusername/bfi-hedra.git
+git clone https://github.com/codewhizzhard/LND.git
 cd bfi-hedra
 
 
+2) Prepare environment variables
 
-🏗️ **Built with passion and love on Hedera to put decentralization in everyone's hand**  
+Create a copy of the example file and fill with your Hedera Testnet credentials and local config:
+
+cp .env.example .env
+
+
+.env.example (example template)
+
+# Hedera
+HEDERA_ACCOUNT_ID=0.0.xxxxxx
+HEDERA_PRIVATE_KEY=302e020100300506032b657004220420xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+MIRROR_NODE_URL=https://testnet.mirrornode.hedera.com/api/v1
+
+# Deployed Testnet IDs (optional: replace with judge-provided test ids)
+CONTRACT_ID=0.0.xxxxxx
+TOKEN_ID=0.0.xxxxxx
+TOPIC_ID=0.0.xxxxxx
+
+# App
+PORT=5000
+FRONTEND_PORT=5173
+ALT_FRONTEND_PORT=5174
+
+
+⚠️ Security: Do not commit .env or private keys. Judges will be provided Testnet credentials in the hackathon submission notes.
+
+3) Backend (full node) — build & start
+
+Open a terminal and run:
+
+cd backend-new
+npm i
+npm run build
+npm run start
+
+
+What this does
+
+npm i — installs backend dependencies
+
+npm run build — compiles TypeScript / prepares production artifacts (if applicable)
+
+npm run start — runs the backend server (default: http://localhost:5000)
+
+4) Frontend — run dev server (two ports to avoid CORS)
+
+Open two terminals (or two tabs). In the first:
+
+cd frontend
+npm install
+npm run dev
+# default served on http://localhost:5173
+
+
+In the second terminal, run the dev server again on the alternate port to bypass CORS for quick local testing:
+
+cd frontend
+# If your dev tool accepts a port variable (Vite example):
+PORT=5174 npm run dev
+# accessible at http://localhost:5174
+
 
 
 
