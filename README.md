@@ -1,8 +1,6 @@
 # 🌍 **Business Fabric Infrastructure (BFI)**  
 ### _Track: DLT for Operations_  
 
-bbbbbbbbb 🏗️ **Built with passion and love on Hedera to put decentralization in everyone's hand**  
-
 📜 **Pitch Deck:**  https://docs.google.com/presentation/d/1AD7xC7nwp3sQDHGpkj6QXa_xpRtP_v6AOJPaTGY2yLc/edit?usp=drive_link
 🎓 **Certificate:**  https://drive.google.com/file/d/105Kvrm895DoMkPl5XYV8D-wa5F7GV_bi/view?usp=drive_link
 
@@ -362,3 +360,9 @@ You can view and verify all messages tied to your Topics directly from the **BFi
 ✅ Hash logs of transactions  
 🔗 Policy and issuer verification events  
 🧾 On-chain and off-chain consistency proofs
+
+### smart contract
+
+The smart contract to do the advanced concept that will be use instead of the current smart contract to lock bond for now for testnet, we have the issuerBondManager and the RumorV2 contract already in the backend-new/src/sol this can be compiled on remix then copy the bytecode and it can be tested too, but for now it is not in use, not to bore you with too much technical part of the code, but it is ready to use.
+
+🏗️ **Built with passion and love on Hedera to put decentralization in everyone's hand**  
