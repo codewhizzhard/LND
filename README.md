@@ -172,136 +172,84 @@ BFi amplifies Hedera’s strengths — turning **low fees, high throughput, and 
 
 ## 🚀 Deployment & Setup Instructions (Run locally on Hedera Testnet)
 
-## 🚀 Deployment & Setup Instructions (Run Locally on Hedera Testnet)
+🚀 Deployment & Setup Instructions (Run Locally on Hedera Testnet)
 
-> 🧠 **Goal:** Judges and developers should be able to clone, configure, and run the BFi project locally on **Hedera Testnet** in under **10 minutes**.
+🧠 Goal:
+Judges and developers should be able to clone, configure, and run BFi locally on Hedera Testnet in under 10 minutes.
 
----
+🧩 Step 1 — Clone the Repository
 
-### 🧩 1. Clone the Repository
+Run the following in your terminal:
 
-```bash
 git clone https://github.com/yourusername/bfi-hedera.git
+
 cd bfi-hedera
-⚙️ 2. Setup Environment Variables
-Create an .env file from the provided template:
 
-bash
-Copy code
-cp .env.example .env
-.env.example
+⚙️ Step 2 — Setup Environment Variables
 
-text
-Copy code
-# --- Hedera Configuration ---
-HEDERA_ACCOUNT_ID=0.0.xxxxxx
-HEDERA_PRIVATE_KEY=302e020100300506032b657004220420xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-MIRROR_NODE_URL=https://testnet.mirrornode.hedera.com/api/v1
+Create an environment file from the provided template:
 
-# --- Deployed Testnet IDs (replace with your actual ones) ---
-CONTRACT_ID=0.0.xxxxxx
-TOKEN_ID=0.0.xxxxxx
-TOPIC_ID=0.0.xxxxxx
+Copy: .env.example → .env
 
-# --- App Configuration ---
-PORT=5000
-FRONTEND_PORT=5173
-ALT_FRONTEND_PORT=5174
-⚠️ Security Tip: Never commit your .env file or private keys.
-Use only Hedera Testnet credentials when testing.
+Fill in your details (Hedera Testnet account, keys, and contract IDs)
 
-🖥️ 3. Backend Setup (Node.js)
-Open a new terminal and run:
+Example .env variables:
 
-bash
-Copy code
+HEDERA_ACCOUNT_ID=0.0.xxxxxx  
+HEDERA_PRIVATE_KEY=302e020100300506032b657004220420xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  
+MIRROR_NODE_URL=https://testnet.mirrornode.hedera.com/api/v1  
+
+CONTRACT_ID=0.0.xxxxxx  
+TOKEN_ID=0.0.xxxxxx  
+TOPIC_ID=0.0.xxxxxx  
+
+PORT=5000  
+FRONTEND_PORT=5173  
+ALT_FRONTEND_PORT=5174  
+
+
+⚠️ Security Tip: Never commit .env files or private keys.
+Always use Hedera Testnet credentials when testing.
+
+🖥️ Step 3 — Backend Setup (Node.js)
+
+Inside the project folder:
+
 cd backend-new
+
 npm install
+
 npm run build
+
 npm run start
-This will:
 
-📦 Install all backend dependencies
+✅ This will install dependencies, build the backend, and start it on http://localhost:5000.
 
-⚙️ Build backend for production
+💻 Step 4 — Frontend Setup (React + Vite)
 
-🚀 Start the backend at http://localhost:5000
+In a new terminal:
 
-💻 4. Frontend Setup (React + Vite)
-Now in another terminal:
-
-bash
-Copy code
 cd frontend
+
 npm install
-npm run dev
-# runs at http://localhost:5173
-Open a second terminal (or tab) and run again to bypass CORS for local testing:
 
-bash
-Copy code
-cd frontend
-PORT=5174 npm run dev
-# runs at http://localhost:5174
+npm run dev → app starts on http://localhost:5173
+
+Then open a second terminal and run again with a new port to bypass CORS:
+
+PORT=5174 npm run dev → app runs on http://localhost:5174
+
 💡 Why two ports?
+Some wallet callbacks and proxy requests can trigger CORS restrictions.
+Running two instances locally (5173 & 5174) allows smooth cross-origin testing.
 
-Some wallet callbacks and proxy requests trigger CORS blocks in local dev mode.
-Running the frontend on two ports (5173 & 5174) allows cross-origin interactions easily during demos.
+⚡ Step 5 — Use the SDK (Optional Frontend-Only Mode)
 
-⚡ 5. Use the SDK (Frontend-Only Option)
-If you want to skip running the backend and call Hedera functions directly from the UI, install the BFi SDK:
+If you want to skip the backend entirely, install the official BFi SDK:
 
-bash
-Copy code
 npm i @codewhizzhard/lnd-sdk
-Example usage:
 
-js
-Copy code
-import { lockBond, getTopicMessages, mintBadge } from '@codewhizzhard/lnd-sdk';
+Example usage in your frontend:
 
-// Lock a bond
-await lockBond({ issuerAccountId: '0.0.x', amount: '10' });
-
-// Read topic messages
-const messages = await getTopicMessages(process.env.TOPIC_ID);
-
-// Mint an issuer badge
-await mintBadge({ issuerAccount: '0.0.x', metadataHash: 'Qm...' });
-🧩 This SDK is for demo and quick testing — the full backend version includes verification and persistence logic.
-
-🌍 6. Local Running Overview
-Service	Port	Description
-Backend	http://localhost:5000	Handles Hedera SDK interactions & APIs
-Frontend (Main)	http://localhost:5173	Main app interface
-Frontend (Alt)	http://localhost:5174	CORS-bypass for local development
-
-Open both frontend URLs and test key flows:
-
-Issuer lock bond
-
-Verify transaction on Hedera Mirror Node
-
-View topic messages and badges
-
-🔍 7. Verify Hedera Activity (Mirror Node)
-Check topic messages:
-
-bash
-Copy code
-curl "https://testnet.mirrornode.hedera.com/api/v1/topics/${TOPIC_ID}/messages?limit=10"
-Check transactions:
-
-Visit: https://hashscan.io/testnet
-
-Search your CONTRACT_ID, TOKEN_ID, or TOPIC_ID
-
-You’ll see TokenMintTransaction, TopicMessageSubmitTransaction, etc., confirming the on-chain activity
-
-🧰 8. Troubleshooting & Common Issues
-Issue	Cause	Solution
-❌ .env not found	Missing config	Copy .env.example → .env and fill details
-⚠️ Port already in use	Dev ports busy	Change port numbers or kill old processes
-🔒 CORS errors	Browser blocked requests	Use the 5174 alt frontend or set up proxy
-🕓 No transactions in mirror node	Delay in sync	Wait 5–10s or verify your account ID/private key
+e	Delay in sync	Wait 5–10s or verify your account ID/private key
 
