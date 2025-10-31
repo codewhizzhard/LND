@@ -168,8 +168,21 @@ BFi amplifies Hedera’s strengths — turning **low fees, high throughput, and 
 
 ---
 
-🏗️ **Built with Love on Hedera**  
-🔗 `#Hedera` · `#Guardian` · `#TrustFabric` · `#BFi` · `#DecentralizedCommerce`
+## 🚀 Deployment & Setup Instructions (Run locally on Hedera Testnet)
+
+> Goal: Judges should be able to clone this repo, configure testnet credentials, and run the app locally in under 10 minutes.
+
+---
+
+### 1) Clone the repository
+```bash
+git clone https://github.com/yourusername/bfi-hedra.git
+cd bfi-hedra
+
+
+
+🏗️ **Built with passion and love on Hedera to put decentralization in everyone's hand**  
+
 
 
 
