@@ -392,8 +392,74 @@ You can view and verify all messages tied to your Topics directly from the **BFi
 🔗 Policy and issuer verification events  
 🧾 On-chain and off-chain consistency proofs
 
-### smart contract
+### Smart Contract
 
 The smart contract to do the advanced concept that will be use instead of the current smart contract to lock bond for now for testnet, we have the issuerBondManager and the RumorV2 contract already in the backend-new/src/sol this can be compiled on remix then copy the bytecode and it can be tested too, but for now it is not in use, not to bore you with too much technical part of the code, but it is ready to use.
+
+### Required to be read to understand the flow
+1. Onboarding Flow Overview
+A. Organization Onboarding (Businesses & Issuers) When an organization signs up, it must specify whether it’s a Business or an Issuer:
+
+Businesses represent merchants within the BFI ecosystem — similar to drivers on Uber or freelancers on Upwork. They are the operational units interacting directly with users.
+Issuers act as trust guarantors. They declare:“I am willing to stake my reputation and funds to ensure only legitimate businesses operate under me.”These issuers are typically established organizations in their sectors — for example: Because their reputations and funds are on the line, issuers carefully verify every business they onboard. They also earn revenue from each verified business operating under them, creating a sustainable trust economy.
+WHO onboarding pharmacies.
+Banks onboarding verified fintechs.
+Uber onboarding trusted drivers.
+2. Account Creation and Identity Verification
+Upon signup, an email is required.
+The system sends an issuer invite to BFI’s Managed Guardian UI, which allows the organization to receive a Policy Issuance from a Standard Registry.
+After receiving the email, the user proceeds to create a Managed Guardian account and returns to BFI to generate a Hedera account (ED25519) this is managed by the user, it is self-custodian.
+This accountId is then used on the Managed Guardian UI we sent to the user email to create a DID (Decentralized Identifier) using the private key and accountId.
+For users, the DID creation is optional. For businesses and issuers, it’s mandatory — forming the foundation of verifiable identity on BFI(so they must create did on guardian). for production we will host guardian ourselves but required for testing for now.
+
+3. Login and Guardian Data Synchronization
+Once DID creation is complete:
+
+Login is performed using username for user or organization name by organization and password, additional email to sync with guardian, if normal user you dont need email to login, just for organization to show their did on BFI. subsequent login doesnt require you to login with email. we will do this automatically in production.
+4. Messaging and Asset System
+BFI is designed as a trust-first messaging app where every message, image, or product update can be timestamped on Hedera. Users can:
+
+Chat, share images, and record on-chain proofs of authenticity.
+Later prove message integrity (e.g., in legal or professional settings) through verifiable Hedera timestamps.
+Share verified content via QR codes embedded on physical products, ensuring immutable proof of origin.
+Businesses can:
+
+Create or update messages and events tied to a topic ID on Hedera Consensus Service (HCS).
+Each update adds a new message to the same topic, while new messages generate new topics.
+View all created assets in the “My Assets” section and download QR codes for labeling physical goods.
+Messages can be Public (visible to all) or Private (visible only to the sender). This flexible design enables BFI to function seamlessly across all commerce sectors — Agriculture, Healthcare, Fashion, Fintech, Education, and more.
+
+5. The Core BFI Actions
+BFI’s design is universal, abstracting all digital or physical interactions into four core actions:
+
+Buy / Sell – for physical goods and marketplaces.
+Request / Access – for service-based interactions.
+Rumor – a decentralized accountability layer.
+The Rumor Protocol allows users to flag fraudulent behavior by businesses. When a rumor is made, the responsible Issuer reviews the claim. If the business is found guilty, penalties (slashing or deactivation) are enforced on-chain — ensuring that trust has consequences.
+
+(Note: Rumor-related smart contracts and watcher mechanisms will be activated in post-hackathon production.)
+
+6. Issuer Administration
+After onboarding:
+
+Issuers can define their sector and role (e.g., “Issuer: Health” or “Issuer: Finance”).
+Within their admin dashboard, issuers can:
+Create EDSCA accounts for interacting with Hedera smart contracts, and hashpack is needed to do this transfer, set up your hashpack and use your edsca account created to send to the smart contract.
+Add bond collateral (default: 2 HBAR) on-chain — making them financially accountable.
+Issue Verifiable Credentials (VCs) to verified businesses.
+Once verified, issuers become active trust nodes within the BFI network.
+
+7. Development and Future Roadmap
+Much of the early development phase focused on designing a realistic, human-centered trust framework before writing any code. As a result:
+
+Not all components (e.g., watcher nodes, rumor slashing, advanced automation) are fully implemented yet.
+The foundation — onboarding, identity sync, and proof mechanisms — is already functional.
+BFI’s long-term goal is to become the infrastructure of trust across Africa’s digital and physical economies — enabling governments, industries, and users to rebuild economic fairness through verified integrity.
+
+### Tech Stack
+Backend: ExpressJs, Hedera SDK, Typescript
+Frontend: React, Typescript, vite
+Off Chain Storage: Mongodb database, IPFS
+Smart Contract: Solidity
 
 🏗️ **Built with passion and love on Hedera to put decentralization in everyone's hand**  
