@@ -189,29 +189,54 @@ Fill in your details (Hedera Testnet account, keys, and contract IDs)
 
 Example .env variables:
 
+# 🚀 Server Configuration
 PORT=3001
-SECRETSALT=*** for hashing data
-OPERATOR_ID=***    
-OPERATOR_KEY=***
-TOPIC_ID= this is to create account for users, required
-VERIFICATION_TOPIC_ID=*** only needed when you will be testing issuer sending bond to the smart contract if not optional
-TOKEN_ID=*** this is to mint nft for issuer after sending transaction to the bond, if you are not testing issuer that much, not needed
-DB=*** your mongodb link to store data and get data, required
-PINATA_JWT=*** to write to ipfs your pinata jwt is required, we write all users detail that create account on ipfs to, so if you will create an account for users it is needed, for you to test you must use this
-PINATA_GATEWAY=*** the gateway for your pinata
-JWT_SECRET=*** needed but you can use SECRETSALT value but it must be there, we want safe security that is why we use two secrets
-MGS_TENANT_ID=*** we used managed guardian service to make issuer create policy and businesses to be under issuer to submit data
-MGS_REFRESH_TOKEN=*** required refresh token to sync into your managed guardian service
-PLATFORM_ISSUER_DID=*** this is when issuer paid into the bond and we want to verify them and give them a verified vc, not required if issuer wont be tested
-MAINTENANCE_ADDRESS=*** address of the project on the smart contract so that you can talk to the smart contract, required if you will be testing the issuer
-NFT_URI=*** required if you will testing the issuer to mint nft
+SECRETSALT=***           # Used for hashing sensitive data
+
+# 🪙 Hedera Operator Credentials
+OPERATOR_ID=***          # Your Hedera Operator Account ID
+OPERATOR_KEY=***         # Your Hedera Operator Private Key
+
+# 🧾 Topics
+TOPIC_ID=***             # Required for creating user accounts
+VERIFICATION_TOPIC_ID=***# Optional – used only when testing issuer bond verification
+
+# 🪪 Token & NFT
+TOKEN_ID=***             # Optional – used when minting issuer NFTs
+NFT_URI=***              # Optional – URI for NFT metadata (required only when testing issuer minting)
+
+# 🗃️ Database
+DB=***                   # MongoDB connection string (Required)
+
+# 📦 IPFS (Pinata)
+PINATA_JWT=***           # Required for uploading user data to IPFS
+PINATA_GATEWAY=***       # Pinata gateway URL for IPFS access
+
+# 🔐 Security
+JWT_SECRET=***           # JWT signing secret (can reuse SECRETSALT but must exist)
+
+# 🧩 Managed Guardian Service (MGS)
+MGS_TENANT_ID=***        # Managed Guardian Service Tenant ID
+MGS_REFRESH_TOKEN=***    # MGS refresh token for syncing issuer policies
+
+# 🧠 Platform Issuer
+PLATFORM_ISSUER_DID=***  # Optional – used for verifying issuers and issuing verified VCs
+
+# 💼 Smart Contract
+MAINTENANCE_ADDRESS=***  # Address of the deployed maintenance smart contract (Required if testing issuer)
+
 
 
 Frontend***
 
-VITE_SECRET_KEY=*** just to help user store their key on the browser we will use hashpack in production, issuers will use hashpack to fund the bond, but this is for users that want to test to simulate how wallet works
-VITE_APP_NAME=*** for the walletId setup
-VITE_WALLETCONNECT_ID=*** to connect the hashpack for issuer alone if it wont be tested not needed
+VITE_SECRET_KEY=***       # Helps users store their keys in the browser (for testing). 
+                          # In production, HashPack will handle wallet interactions.
+
+VITE_APP_NAME=***         # Used for walletId setup in the simulated wallet environment.
+
+VITE_WALLETCONNECT_ID=*** # Enables HashPack connection for issuers only. 
+                          # Optional if issuer testing is not required.
+
 
 
 🖥️ Step 3 — Backend Setup (express.js)
