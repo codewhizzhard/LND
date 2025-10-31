@@ -34,7 +34,6 @@ Since BFi operates across multiple industries, **logging must remain affordable*
 - `TopicCreateTransaction` — create consensus topics for BFi message logging.  
 - `TopicMessageSubmitTransaction` — submit event messages (hashed JSON).  
 
-📚 [docs.hedera.com](https://docs.hedera.com)
 
 ---
 
@@ -59,7 +58,6 @@ Perfect for a **financial trust layer** processing **thousands of micro-interact
 - `TokenAssociateTransaction`  
 - `TransferTransaction`
 
-📚 [docs.hedera.com](https://docs.hedera.com)
 
 ---
 
@@ -82,7 +80,6 @@ Every operation is **deterministic, auditable, and tamper-proof**, and only vali
 - `ContractCreateFlow()` / `ContractCreateTransaction` — deploy smart contract  
 - `ContractExecuteTransaction` — execute lifecycle functions  
 
-📚 [docs.hedera.com](https://docs.hedera.com)
 
 ---
 
@@ -110,7 +107,6 @@ Issuers verify businesses using Guardian’s policy engine — making all trust 
 #### 🔍 Mirror Node Integration  
 We use **Mirror Node TransactionRecordQuery** to **verify data and audit trails** from Hedera in real time.
 
-📚 [docs.hedera.com](https://docs.hedera.com)
 
 ---
 
@@ -181,9 +177,9 @@ Judges and developers should be able to clone, configure, and run BFi locally on
 
 Run the following in your terminal:
 
-git clone https://github.com/yourusername/bfi-hedera.git
+git clone https://github.com/codewhizzhard/LND.git
 
-cd bfi-hedera
+cd LND
 
 ⚙️ Step 2 — Setup Environment Variables
 
@@ -195,23 +191,32 @@ Fill in your details (Hedera Testnet account, keys, and contract IDs)
 
 Example .env variables:
 
-HEDERA_ACCOUNT_ID=0.0.xxxxxx  
-HEDERA_PRIVATE_KEY=302e020100300506032b657004220420xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  
-MIRROR_NODE_URL=https://testnet.mirrornode.hedera.com/api/v1  
+PORT=3001
+SECRETSALT=*** for hashing data
+OPERATOR_ID=***    
+OPERATOR_KEY=***
+TOPIC_ID= this is to create account for users, required
+VERIFICATION_TOPIC_ID=*** only needed when you will be testing issuer sending bond to the smart contract if not optional
+TOKEN_ID=*** this is to mint nft for issuer after sending transaction to the bond, if you are not testing issuer that much, not needed
+DB=*** your mongodb link to store data and get data, required
+PINATA_JWT=*** to write to ipfs your pinata jwt is required, we write all users detail that create account on ipfs to, so if you will create an account for users it is needed, for you to test you must use this
+PINATA_GATEWAY=*** the gateway for your pinata
+JWT_SECRET=*** needed but you can use SECRETSALT value but it must be there, we want safe security that is why we use two secrets
+MGS_TENANT_ID=*** we used managed guardian service to make issuer create policy and businesses to be under issuer to submit data
+MGS_REFRESH_TOKEN=*** required refresh token to sync into your managed guardian service
+PLATFORM_ISSUER_DID=*** this is when issuer paid into the bond and we want to verify them and give them a verified vc, not required if issuer wont be tested
+MAINTENANCE_ADDRESS=*** address of the project on the smart contract so that you can talk to the smart contract, required if you will be testing the issuer
+NFT_URI=*** required if you will testing the issuer to mint nft
 
-CONTRACT_ID=0.0.xxxxxx  
-TOKEN_ID=0.0.xxxxxx  
-TOPIC_ID=0.0.xxxxxx  
 
-PORT=5000  
-FRONTEND_PORT=5173  
-ALT_FRONTEND_PORT=5174  
+Frontend***
+
+VITE_SECRET_KEY=*** just to help user store their key on the browser we will use hashpack in production, issuers will use hashpack to fund the bond, but this is for users that want to test to simulate how wallet works
+VITE_APP_NAME=*** for the walletId setup
+VITE_WALLETCONNECT_ID=*** to connect the hashpack for issuer alone if it wont be tested not needed
 
 
-⚠️ Security Tip: Never commit .env files or private keys.
-Always use Hedera Testnet credentials when testing.
-
-🖥️ Step 3 — Backend Setup (Node.js)
+🖥️ Step 3 — Backend Setup (express.js)
 
 Inside the project folder:
 
@@ -223,7 +228,7 @@ npm run build
 
 npm run start
 
-✅ This will install dependencies, build the backend, and start it on http://localhost:5000.
+✅ This will install dependencies, build the backend, and start it on http://localhost:3001.
 
 💻 Step 4 — Frontend Setup (React + Vite)
 
@@ -238,27 +243,20 @@ npm run dev → app starts on http://localhost:5173
 Then open a second terminal and run again with a new port to bypass CORS:
 
 PORT=5174 npm run dev → app runs on http://localhost:5174
+use this PORT=5174
 
 💡 Why two ports?
 Some wallet callbacks and proxy requests can trigger CORS restrictions.
 Running two instances locally (5173 & 5174) allows smooth cross-origin testing.
 
-⚡ Step 5 — Use the SDK (Optional Frontend-Only Mode)
+⚡ Step 5 — Use the SDK (SDK call the api)
 
-If you want to skip the backend entirely, install the official BFi SDK:
-
-npm i @codewhizzhard/lnd-sdk
-
-////
+install the sdk with this
+npm i @codewhizzhard/lnd-sdk 
 
 
-🌍 Step 6 — Local Running Overview
-Service	Port	Description
-Backend	5000	Hedera SDK integration & API server
-Frontend (Main)	5173	Main application UI
-Frontend (Alt)**	5174	CORS bypass during local dev
-
-After setup, open both frontend URLs and test:
+🌍 Step 6 — Run and test
+Then go ahead open the localhost for the frontend and start testing, make sure when you sign up you use the same password, email, username(for normal user), or organization name(for business and issuer) used to register on BFI as what you use to register your managed guardian so we can sync your DID from it to your dashboard(we will host our own guardian in production, so the flow will be automated later), so to get your details from managed guardian service after creating an account and generating your did, it is required that you must login with those details to get it from managed guardian service, for user it is optional but for issuer and business you must login with those details again(it is just a one time thing).
 
 Lock bond → verify issuer
 
@@ -272,7 +270,9 @@ To confirm transactions:
 
 Visit Hashscan Testnet
 
-Search by your CONTRACT_ID, TOKEN_ID, or TOPIC_ID
+create a message using the message button on the dashboard(you need to have created your account, did is not required though), then check the recent activity and copy the topic id and paste it in hashscan and you will see your message, you can create new message or update it by clicking on the view all in the event section under the recent activity, clicking the message will be creating new topic everytime.
+
+Search by your IDs for any other details you want to find, account, another message, you contract, bytecode of the contract will be seen in the bin in the backend-new/src/sdk/issuerBond.bin then find deployIssuerBondManager call it to deploy the contract, not required
 
 You’ll see your TokenMintTransaction, TopicMessageSubmitTransaction, etc.
 
