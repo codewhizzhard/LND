@@ -191,18 +191,22 @@ Example .env variables:
 
 # 🚀 Server Configuration
 PORT=3001
+
 SECRETSALT=***           # Used for hashing sensitive data
 
 # 🪙 Hedera Operator Credentials
 OPERATOR_ID=***          # Your Hedera Operator Account ID
+
 OPERATOR_KEY=***         # Your Hedera Operator Private Key
 
 # 🧾 Topics
 TOPIC_ID=***             # Required for creating user accounts
+
 VERIFICATION_TOPIC_ID=***# Optional – used only when testing issuer bond verification
 
 # 🪪 Token & NFT
 TOKEN_ID=***             # Optional – used when minting issuer NFTs
+
 NFT_URI=***              # Optional – URI for NFT metadata (required only when testing issuer minting)
 
 # 🗃️ Database
@@ -218,6 +222,7 @@ JWT_SECRET=***           # JWT signing secret (can reuse SECRETSALT but must exi
 
 # 🧩 Managed Guardian Service (MGS)
 MGS_TENANT_ID=***        # Managed Guardian Service Tenant ID
+
 MGS_REFRESH_TOKEN=***    # MGS refresh token for syncing issuer policies
 
 # 🧠 Platform Issuer
