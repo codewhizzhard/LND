@@ -3,8 +3,8 @@
 
 bbbbbbbbb 🏗️ **Built with passion and love on Hedera to put decentralization in everyone's hand**  
 
-📜 **Pitch Deck:** [View Here](#)  
-🎓 **Certificate:** _Pending_  
+📜 **Pitch Deck:**  https://docs.google.com/presentation/d/1AD7xC7nwp3sQDHGpkj6QXa_xpRtP_v6AOJPaTGY2yLc/edit?usp=drive_link
+🎓 **Certificate:**  https://drive.google.com/file/d/105Kvrm895DoMkPl5XYV8D-wa5F7GV_bi/view?usp=drive_link
 
 ---
 
