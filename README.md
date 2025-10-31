@@ -287,3 +287,47 @@ Port already in use	Port conflict	Stop previous process or change port
 CORS error	Browser restrictions	Use the second frontend on port 5174
 No transactions showing	Mirror Node delay	Wait a few seconds or check account key
 
+
+## 🏗️ **Architecture Overview**
+
+Below is the full system architecture of **BFi — Built on Hedera**, showing how our Frontend, Backend, and Hedera services communicate in real time for trust, traceability, and transaction flow.
+
+```text
+                          ┌──────────────────────────────────────┐
+                          │        🖥️  Frontend (React)          │
+                          │ UI + Wallet (HashPack) + Guardian UI │
+                          └───────────────┬──────────────────────┘
+                                          │
+                                          │ REST / SDK Calls
+                                          ▼
+                          ┌──────────────────────────────────────┐
+                          │     ⚙️ Backend (Express.js API)       │
+                          │  - HCS Message Logging               │
+                          │  - HSCS Contract Calls               │
+                          │  - HTS NFT Minting                   │
+                          │  - Guardian API Relay                │
+                          │  (via Hedera SDK)                    │
+                          └───────────────┬──────────────────────┘
+                                          │
+                                          │
+                                          ▼
+                    ┌────────────────────────────────────────────┐
+                    │              ☄️ Hedera Network              │
+                    │ ┌──────────────┬──────────────┬──────────┐ │
+                    │ │ 🧾 HCS        │ 💎 HTS        │ ⚖️ HSCS   │ │
+                    │ │ Logs Hashes  │ Mint NFTs    │ Bonds SC │ │
+                    │ └──────────────┴──────────────┴──────────┘ │
+                    │                                            │
+                    │ 🔍 Mirror Node — Query Transaction Records  │
+                    │                                            │
+                    │ 🛡️ Guardian System — DIDs + Policy Engine   │
+                    │  (Identity, Verification, Compliance)       │
+                    └──────────────┬──────────────────────────────┘
+                                   │
+                                   │ Verified Events / Data Hashes
+                                   ▼
+                          ┌──────────────────────────────────────┐
+                          │ 🔄 Frontend (React) Re-renders UI     │
+                          │  │
+                          └──────────────────────────────────────┘
+
