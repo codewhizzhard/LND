@@ -249,7 +249,41 @@ If you want to skip the backend entirely, install the official BFi SDK:
 
 npm i @codewhizzhard/lnd-sdk
 
-Example usage in your frontend:
+////
 
-e	Delay in sync	Wait 5–10s or verify your account ID/private key
+
+🌍 Step 6 — Local Running Overview
+Service	Port	Description
+Backend	5000	Hedera SDK integration & API server
+Frontend (Main)	5173	Main application UI
+Frontend (Alt)**	5174	CORS bypass during local dev
+
+After setup, open both frontend URLs and test:
+
+Lock bond → verify issuer
+
+View topic messages
+
+Track badge mints on Hedera Mirror Node
+
+🔍 Step 7 — Verify Hedera Activity
+
+To confirm transactions:
+
+Visit Hashscan Testnet
+
+Search by your CONTRACT_ID, TOKEN_ID, or TOPIC_ID
+
+You’ll see your TokenMintTransaction, TopicMessageSubmitTransaction, etc.
+
+Or fetch topic messages directly:
+
+https://testnet.mirrornode.hedera.com/api/v1/topics/${TOPIC_ID}/messages?limit=10
+
+🧰 Step 8 — Troubleshooting
+Issue	Cause	Fix
+.env not found	Missing configuration	Copy .env.example → .env
+Port already in use	Port conflict	Stop previous process or change port
+CORS error	Browser restrictions	Use the second frontend on port 5174
+No transactions showing	Mirror Node delay	Wait a few seconds or check account key
 
